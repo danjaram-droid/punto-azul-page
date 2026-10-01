@@ -1,0 +1,255 @@
+@font-face {
+    font-family: 'PT Serif Caption';
+    src: url('fuentes/PTSerifCaption-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1 {
+    font-family: 'PT Serif Caption', serif;
+    font-size: 140px;
+    color: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow-x: hidden;
+    background-color: #1e90ef;
+    COLOR: #ffffff;
+}
+
+.titulo-introduccion {
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+    margin-top: 10px;
+}
+
+.zoom-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e90ef;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.zoom-elemento {
+    width: 6000px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    opacity: 0.37;
+    filter: none;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 12%, transparent 10%);
+    mask-image: radial-gradient(circle at 50% 50%, black 12%, transparent 10%);
+    transition: transform 0.05s ease-out;
+    will-change: transform;
+    margin-top: 10px;
+}
+
+.contenido-siguiente {
+    min-height: 100vh;
+    background-color: #ffffff;
+    padding: 60px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #333;
+}
+
+.boton-himno {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 12px 24px;
+    background-color: #0077be;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton-himno:hover {
+    background-color: #005fa3;
+    transform: scale(1.05);
+}
+
+.boton-himno.reproduciendo {
+    background-color: #28a745;
+}
+
+main {
+    position: relative;
+    z-index: 20;
+    background-color: transparent;
+    color: #ffffff;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0; /* Empieza exactamente al terminar el zoom inicial */
+}
+main section {
+    max-width: 800px;
+    margin: 0 auto 60px auto;
+    background: transparent !important;
+    padding: 0;
+    box-shadow: none;
+}
+
+main h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 32px;
+    text-align: center;
+    font-family: 'PT Serif Caption', serif;
+}
+
+main p {
+    line-height: 1.8;
+    font-size: 18px;
+    color: #ffffff;
+    text-align: justify;
+}
+
+main img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.seccion-pantalla {
+    height: 100vh;          /* Cada sección ocupa una pantalla exacta */
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background-color: #1e90ef; /* Mantiene el fondo azul sólido para que no se trasluzcan */
+    text-align: center;
+    position: relative;
+    z-index: 21;
+}
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+.zoom-container, .seccion-pantalla {
+    scroll-snap-align: start;
+}
+/* --- Estilos del Menú Hamburguesa --- */
+.menu-hamburguesa {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 35px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.menu-hamburguesa span {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Animación del botón a una "X" cuando está activo */
+.menu-hamburguesa.activo span:nth-child(1) {
+    transform: translateY(13px) rotate(45deg);
+}
+.menu-hamburguesa.activo span:nth-child(2) {
+    opacity: 0;
+}
+.menu-hamburguesa.activo span:nth-child(3) {
+    transform: translateY(-13px) rotate(-45deg);
+}
+
+/* Panel de Navegación Oculto (Overlay) */
+.nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(30, 144, 239, 0.95); /* Azul corporativo translúcido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    z-index: 999;
+}
+
+.nav-overlay.activo {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Lista de enlaces del menú */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+.nav-links li {
+    margin: 25px 0;
+}
+
+.nav-links a {
+    color: #ffffff;
+    font-size: 2rem;
+    font-family: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: #d1e8ff;
+}
+/* Solución limpia y definitiva solo para portátiles */
+@media (min-width: 900px) and (max-width: 1400px) {
+    h1 {
+        font-size: clamp(2.5rem, 5vw, 75px) !important;
+    }
+
+    .seccion-pantalla {
+        height: auto !important;          /* Permite que la sección se adapte al contenido sin forzar 100vh */
+        min-height: 100vh !important;     /* Asegura que al menos cubra la pantalla completa */
+        padding: 50px 20px !important;    /* Espaciado interno cómodo para que respire el contenido */
+    }
+}
